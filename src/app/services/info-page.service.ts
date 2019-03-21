@@ -10,16 +10,31 @@ export class InfoPageService {
   inf: PageInfo = {};
   loadingPage = false;
 
+  team: any[] = [];
+
   constructor( private http: HttpClient) { 
     
+  this.loadInfo();
+  this.loadTeam();
+  }
+
+  private loadInfo(){
     this.http.get('assets/data/data-page.json')
       .subscribe( (resp: PageInfo) => {
-
         this.loadingPage = true;
         this.inf = resp;
-        console.log(resp);
-        // console.log(resp['author_page']);
       });
-
   }
+
+  private loadTeam(){
+    this.http.get('https://angularportfolio-1d6f5.firebaseio.com/team.json')
+    .subscribe( (resp: any) => {
+
+      this.team = resp;
+      this.inf = resp;
+      // console.log(resp);
+    });
+  }
+
+  
 }
