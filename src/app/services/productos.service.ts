@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../interface/producto-info.interfaec';
+import { Product } from '../interface/producto-info.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { Product } from '../interface/producto-info.interfaec';
 export class ProductosService {
 
   loading = true;
-  productos : Product[] = [];
+  productos: Product[] = [];
 
   constructor(private http: HttpClient) { 
     this.CargarProducto();
@@ -17,14 +17,16 @@ export class ProductosService {
   private CargarProducto(){
     this.http.get('https://angularportfolio-1d6f5.firebaseio.com/productos_idx.json')
     .subscribe( (resp: Product []) => {
-
-      console.log(resp);
       this.productos = resp;
       this.loading = false;
-      // setTimeout(() => {
-      //   this.loading = false;  
-      // }, 2000);
-      
     });
   }
+
+    getProducto(id: string) {
+        return this.http.get(`https://angularportfolio-1d6f5.firebaseio.com/productos/${ id }.json`);
+      // return this.http.get('https://angularportfolio-1d6f5.firebaseio.com/productos/prod-4.json');
+    }
+
+    
+
 }
